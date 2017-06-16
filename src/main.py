@@ -92,6 +92,22 @@ class LRU:
     '''
       set method to verify if the cache capacity reached it's limit and delete the elements
     '''
+    def __set__(self, key, value):
+        #check if the key is already present
+        if(self.cachedata.hash.__contains__(key)):
+            updated_node = self.__get__(key)
+            return updated_node
+
+        if(self.cachedata.hash.__sizeof__() >= self.cachedata.capacity):
+            #remove the tail element in cache
+            deleted_node = self.removenode(self.cachedata.last)
+            # get the tail previous element and update the cache last
+            self.cachedata.last = self.head_node.Tail.previous
+
+        # add new node
+        self.addnode(key, value)
+
+
 
 
 
@@ -108,4 +124,6 @@ res = r.addnode('y',20)
 r.addnode('z',30)
 print(res.key)
 r.__get__(res.key)
+r.__set__('c',90)
+
 
