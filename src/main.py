@@ -72,8 +72,7 @@ class LRU:
                 parent_node.next = decendant_node
                 decendant_node.previous = parent_node
                 self.cachedata.hash.__delitem__(remove_node.key)
-
-        return self.head_node.Head
+        return remove_node
 
     '''
       get method to check if the key is already present move to the head
@@ -83,8 +82,12 @@ class LRU:
         if(self.cachedata.hash.__contains__(key)):
             move_to_head = self.cachedata.hash.get(key)      #get the node
             #remove the node from the linkedlist
+            removed_node = self.removenode(move_to_head)
             #add the removed node to the head
-
+            added_node_to_head = self.addnode(removed_node.key, removed_node.value)
+            return added_node_to_head.key
+        else:
+            return -1
 
     '''
       set method to verify if the cache capacity reached it's limit and delete the elements
@@ -104,5 +107,5 @@ r.addnode('x',10)
 res = r.addnode('y',20)
 r.addnode('z',30)
 print(res.key)
-r.removenode(res)
+r.__get__(res.key)
 
